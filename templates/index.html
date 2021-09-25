@@ -5,9 +5,9 @@
 <div class="day-container"></div>
 <h2 class="date">1970-01-01</h2>
 {% for file in day.files %}
-<div class="box" data-fileref="{{file}}>
-<img src="{{file}}" title="{{file}}" style="width: 512px; height: 384px;">
-<div><a href="{{file}}" class="left">Movie</a><a href="#" class="right delete-button">X</a></div>
+<div class="box" data-fileref="{{file}}">
+<img src="file/{{file}}" title="{{file}}" style="width: 512px; height: 384px;">
+<div><a href="file/{{file}}" class="left">Movie</a><a href="#" class="right delete-button">X</a></div>
 </div>
 {% endfor %}
 {% endfor %}
