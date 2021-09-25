@@ -1,5 +1,6 @@
 import os
 import os.path
+import re
 
 from flask import (
     Flask,
@@ -16,9 +17,17 @@ if not os.path.isdir(motion_directory):
 
 @app.route("/")
 def index():
-    files = [f for f in os.listdir(motion_directory) if os.path.isfile(os.path.join(motion_directory, f)) and f.endswith(".png")]
-    days = [{"files": files}, {"files": files}]
-    return render_template("index.html", days=days)
+    paths = [f for f in os.listdir(motion_directory) if os.path.isfile(os.path.join(motion_directory, f))]
+    days = {}
+    for path in paths:
+        match = re.match(r"^(?P<date>\d{8})_(?P<time>\d{6})-(?P<event>\d+)\.png$", path)
+        if match:
+            date = match.group("date")
+            if date not in days:
+                days[date] = {"files": [path]}
+            else:
+                days[date]["files"].append(path)
+    return render_template("index.html", days=days.values())
 
 @app.route("/delete", methods=["POST"])
 def delete():
