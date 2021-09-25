@@ -32,6 +32,30 @@ body {
 </style>
 </head>
 <body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+$(() => {
+    addEventListener("keydown", function(event) {
+        console.debug("KEYDOWN EVENT", event);
+
+        //keydown { target: body, key: "k", charCode: 0, keyCode: 75 }
+        //keydown { target: body, key: "ArrowUp", charCode: 0, keyCode: 38 }
+        //keydown { target: body, key: "ArrowRight", charCode: 0, keyCode: 39 }
+        //keydown { target: body, key: "ArrowDown", charCode: 0, keyCode: 40 }
+        //keydown { target: body, key: "ArrowLeft", charCode: 0, keyCode: 37 }
+    });
+
+    $(".box img").click(function(event) {
+        let box = $(this).parent();
+        $(".highlight").not(box).removeClass("highlight");
+        $(box).toggleClass("highlight");
+    });
+
+    $(".delete-button").click(function(event) {
+        event.preventDefault();
+    });
+});
+</script>
 <div id="header">
 <h1>Events</h1>
 <form method="get">
