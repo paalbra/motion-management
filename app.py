@@ -16,7 +16,7 @@ if not os.path.isdir(motion_directory):
 
 @app.route("/")
 def index():
-    files = [f for f in os.listdir(motion_directory) if os.path.isfile(os.path.join(motion_directory, f))]
+    files = [f for f in os.listdir(motion_directory) if os.path.isfile(os.path.join(motion_directory, f)) and f.endswith(".png")]
     days = [{"files": files}, {"files": files}]
     return render_template("index.html", days=days)
 
