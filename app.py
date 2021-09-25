@@ -1,7 +1,10 @@
 import os
 import os.path
 
-from flask import Flask
+from flask import (
+    Flask,
+    render_template,
+)
 
 app = Flask(__name__)
 app.config.from_object("config")
@@ -13,7 +16,7 @@ if not os.path.isdir(motion_directory):
 @app.route("/")
 def index():
     files = [path for path in [os.path.join(motion_directory, name) for name in os.listdir(motion_directory)] if os.path.isfile(path)]
-    return {"files": files}
+    return render_template("index.html", files=files)
 
 @app.route("/delete", methods=["POST"])
 def delete():
