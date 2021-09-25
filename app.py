@@ -16,7 +16,8 @@ if not os.path.isdir(motion_directory):
 @app.route("/")
 def index():
     files = [path for path in [os.path.join(motion_directory, name) for name in os.listdir(motion_directory)] if os.path.isfile(path)]
-    return render_template("index.html", files=files)
+    days = [{"files": files}, {"files": files}]
+    return render_template("index.html", days=days)
 
 @app.route("/delete", methods=["POST"])
 def delete():
