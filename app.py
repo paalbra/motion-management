@@ -1,3 +1,4 @@
+import datetime
 import os
 import os.path
 import re
@@ -7,6 +8,10 @@ from flask import (
     render_template,
     send_from_directory,
 )
+
+IMAGE_FILE_PATTERN = r"^(?P<date>\d{8})_(?P<time>\d{6})-(?P<event>\d+)\.png$"
+DATE_FORMAT = r"%Y%m%d"
+TIME_FORMAT = r"%H%M%S"
 
 app = Flask(__name__)
 app.config.from_object("config")
@@ -20,14 +25,15 @@ def index():
     paths = [f for f in os.listdir(motion_directory) if os.path.isfile(os.path.join(motion_directory, f))]
     days = {}
     for path in paths:
-        match = re.match(r"^(?P<date>\d{8})_(?P<time>\d{6})-(?P<event>\d+)\.png$", path)
-        if match:
-            date = match.group("date")
+        if match := re.match(IMAGE_FILE_PATTERN, path):
+            timestamp = datetime.datetime.strptime(match.group("date") + match.group("time"), DATE_FORMAT + TIME_FORMAT)
+            date = timestamp.date()
             if date not in days:
-                days[date] = {"files": [path]}
+                days[date] = [path]
             else:
-                days[date]["files"].append(path)
-    return render_template("index.html", days=days.values())
+                days[date].append(path)
+
+    return render_template("index.html", days=days)
 
 @app.route("/delete", methods=["POST"])
 def delete():
