@@ -2,7 +2,7 @@
 
 {% block content %}
 {% for day, files in days.items() %}
-<div class="day-container"></div>
+<div class="day-container">
 <h2 class="date">{{day}}</h2>
 {% for file in files %}
 <div class="box" data-fileref="{{file}}">
@@ -10,5 +10,6 @@
 <div><a href="file/{{file}}" class="left">Movie</a><a href="#" class="right delete-button">X</a></div>
 </div>
 {% endfor %}
+</div>
 {% endfor %}
 {% endblock %}
