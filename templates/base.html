@@ -35,8 +35,57 @@ body {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script>
 $(() => {
+    deleteBox = function(box) {
+        box.fadeOut(200, function() {
+            let fileref = box.attr("data-fileref");
+            // TODO: Delete fileref
+            let parent = box.parent();
+            box.remove();
+            if (parent.children(".box").length == 0) {
+                parent.remove();
+            }
+        });
+    };
+
+    selectNextBox = function(current) {
+        current.toggleClass("highlight");
+        let next = current.next();
+        if (next.length == 1) {
+            // Next event is same day
+            next.toggleClass("highlight");
+        } else {
+            nextDay = current.parent(".day-container").next();
+            if (nextDay.length == 1) {
+                // Next event is next day
+                nextDay.children(".box").first().toggleClass("highlight");
+            } else {
+                // No next, try first
+                $(".box").first().toggleClass("highlight");
+            }
+        }
+    }
+
     addEventListener("keydown", function(event) {
         console.debug("KEYDOWN EVENT", event);
+
+        highlighted = $(".box.highlight").first();
+        if (highlighted.length > 1) {
+            console.error(`Multiple highlights (${highlighted.length})!`);
+            return;
+        }
+
+        if (event.keyCode == 68) {
+            // key: "d", delete the file
+
+            if (highlighted.length == 1) {
+                selectNextBox(highlighted);
+                deleteBox(highlighted);
+            }
+        } else if (event.keyCode == 78) {
+            // key: "n", select next box
+
+            selectNextBox(highlighted);
+        }
 
         //keydown { target: body, key: "k", charCode: 0, keyCode: 75 }
         //keydown { target: body, key: "ArrowUp", charCode: 0, keyCode: 38 }
@@ -53,6 +102,8 @@ $(() => {
 
     $(".delete-button").click(function(event) {
         event.preventDefault();
+        let box = $(this).parents(".box").first();
+        deleteBox(box);
     });
 });
 </script>
