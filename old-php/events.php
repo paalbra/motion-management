@@ -48,7 +48,7 @@ $(() => {
             let fileref = box.attr("data-fileref");
             deleteFile(fileref);
             let parent = box.parent();
-	    let next = box.next();
+            let next = box.next();
             box.remove();
             next.toggleClass("highlight");
             if (parent.children(".box").length == 0) {
