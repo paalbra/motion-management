@@ -35,10 +35,17 @@ body {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script>
 $(() => {
+    deleteFile = function(fileref) {
+        console.log("Deleting:", fileref)
+        let url = "{{ url_for('delete') }}";
+        let data = JSON.stringify({"fileref": fileref});
+        $.ajax(url, {type: "POST", data: data, contentType: "application/json"});
+    };
+
     deleteBox = function(box) {
         box.fadeOut(200, function() {
             let fileref = box.attr("data-fileref");
-            // TODO: Delete fileref
+            deleteFile(fileref);
             let parent = box.parent();
             box.remove();
             if (parent.children(".box").length == 0) {
