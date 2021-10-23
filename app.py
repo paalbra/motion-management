@@ -1,4 +1,5 @@
 import datetime
+import glob
 import os
 import os.path
 import re
@@ -6,6 +7,7 @@ import re
 from flask import (
     Flask,
     render_template,
+    request,
     send_from_directory,
 )
 
@@ -44,7 +46,16 @@ def index():
 
 @app.route("/delete", methods=["POST"])
 def delete():
-    return "Not implemented"
+    if request.is_json:
+        data = request.json
+        if "fileref" in data:
+            glob_filter = os.path.join(motion_directory, f"{data['fileref']}.*")
+            files = glob.glob(glob_filter)
+            for _file in files:
+                os.remove(_file)
+            return data["fileref"]
+
+    return "Bad data", 400
 
 @app.route("/file/<name>")
 def file(name):
