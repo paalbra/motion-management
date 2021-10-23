@@ -26,12 +26,19 @@ def index():
     days = {}
     for path in paths:
         if match := re.match(IMAGE_FILE_PATTERN, path):
+            image_path = path
+            fileref = os.path.splitext(path)[0]
             timestamp = datetime.datetime.strptime(match.group("date") + match.group("time"), DATE_FORMAT + TIME_FORMAT)
             date = timestamp.date()
+
+            file_object = {
+                "fileref": fileref,
+                "image_path": image_path,
+            }
             if date not in days:
-                days[date] = [path]
+                days[date] = [file_object]
             else:
-                days[date].append(path)
+                days[date].append(file_object)
 
     return render_template("index.html", days=days)
 
