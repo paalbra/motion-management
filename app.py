@@ -22,7 +22,7 @@ if not os.path.isdir(motion_directory):
 
 @app.route("/")
 def index():
-    paths = [f for f in os.listdir(motion_directory) if os.path.isfile(os.path.join(motion_directory, f))]
+    paths = sorted([f for f in os.listdir(motion_directory) if os.path.isfile(os.path.join(motion_directory, f))])
     days = {}
     for path in paths:
         if match := re.match(IMAGE_FILE_PATTERN, path):
