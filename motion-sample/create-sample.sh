@@ -19,7 +19,7 @@ for day in $(seq -f "%02g" 1 $DAYS); do
             convert -size 1024x768 -draw "$LINE" canvas:"$COLOR" -pointsize 70 -fill black -stroke gray -strokewidth 1 -gravity northwest -draw "text 10,70 '$TIMESTAMP-${IDX}'" $TIMESTAMP-${IDX}.png
         done
         ls $TIMESTAMP-*.png
-        ffmpeg -y -framerate 4 -i $TIMESTAMP-%02d.png $TIMESTAMP.mp4 > /dev/null 2>&1
+        ffmpeg -y -framerate 4 -i $TIMESTAMP-%02d.png $TIMESTAMP-01.mp4 > /dev/null 2>&1
         rm $(ls $TIMESTAMP-*.png | grep -v $TIMESTAMP-01.png)
     done
     ((minutes++))
