@@ -97,6 +97,7 @@ $(() => {
 });
 
 </script>
+<img src="motion/lastsnap.jpg" style="width: 512px; height:384px">
 <?php
 
 if (isset($_GET["filter"]) && preg_match("/\d+/", $_GET["filter"])) {
