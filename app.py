@@ -11,11 +11,7 @@ from flask import (
     send_from_directory,
 )
 
-IMAGE_FILE_PATTERN = r"^(?P<date>\d{8})_(?P<time>\d{6})-(?P<event>\d+)\.png$"
-VIDEO_PATTERN = r"\.png$"
-VIDEO_REPLACEMENT = ".mp4"
-DATE_FORMAT = r"%Y%m%d"
-TIME_FORMAT = r"%H%M%S"
+
 
 app = Flask(__name__)
 app.config.from_object("config")
@@ -29,11 +25,11 @@ def index():
     paths = sorted([f for f in os.listdir(motion_directory) if os.path.isfile(os.path.join(motion_directory, f))])
     days = {}
     for path in paths:
-        if match := re.match(IMAGE_FILE_PATTERN, path):
+        if match := re.match(app.config["IMAGE_FILE_PATTERN"], path):
             image_path = path
-            video_path = re.sub(VIDEO_PATTERN, VIDEO_REPLACEMENT, image_path)
+            video_path = ".".join(image_path.split(".")[:-1] + [app.config["VIDEO_EXTENSION"]])
             fileref = os.path.splitext(path)[0]
-            timestamp = datetime.datetime.strptime(match.group("date") + match.group("time"), DATE_FORMAT + TIME_FORMAT)
+            timestamp = datetime.datetime.strptime(match.group("date") + match.group("time"), app.config["DATE_FORMAT"] + app.config["TIME_FORMAT"])
             date = timestamp.date()
 
             file_object = {

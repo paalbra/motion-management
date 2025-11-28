@@ -1,1 +1,5 @@
 MOTION_DIRECTORY = "./motion-sample/"
+IMAGE_FILE_PATTERN = r"^(?P<date>\d{8})_(?P<time>\d{6})\.jpg$"
+VIDEO_EXTENSION = "mp4"
+DATE_FORMAT = r"%Y%m%d"
+TIME_FORMAT = r"%H%M%S"
