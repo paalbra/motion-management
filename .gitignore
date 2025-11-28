@@ -2,5 +2,4 @@ __pycache__/
 venv
 
 config.py
-motion-sample/*.mp4
-motion-sample/*.png
+motion-sample/*
