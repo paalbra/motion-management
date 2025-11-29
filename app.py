@@ -22,6 +22,12 @@ if not os.path.isdir(motion_directory):
 
 @app.route("/")
 def index():
+    try:
+        filter_value = int(request.args["filter"])
+    except:
+        filter_value = 7
+    filter_date = datetime.datetime.now() - datetime.timedelta(days=filter_value)
+
     paths = sorted([f for f in os.listdir(motion_directory) if os.path.isfile(os.path.join(motion_directory, f))])
     days = {}
     for path in paths:
@@ -32,11 +38,15 @@ def index():
             timestamp = datetime.datetime.strptime(match.group("date") + match.group("time"), app.config["DATE_FORMAT"] + app.config["TIME_FORMAT"])
             date = timestamp.date()
 
+            if timestamp < filter_date:
+                continue
+
             file_object = {
                 "fileref": fileref,
                 "image_path": image_path,
                 "video_path": video_path,
             }
+
             if date not in days:
                 days[date] = [file_object]
             else:
