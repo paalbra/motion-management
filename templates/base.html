@@ -44,8 +44,11 @@ $(() => {
 
     deleteBox = function(box) {
         box.fadeOut(200, function() {
-            let fileref = box.attr("data-fileref");
-            deleteFile(fileref);
+            let image = box.attr("data-image");
+            deleteFile(image);
+            let video = box.attr("data-video");
+            deleteFile(video);
+
             let parent = box.parent();
             box.remove();
             if (parent.children(".box").length == 0) {

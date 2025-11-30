@@ -5,8 +5,8 @@
 <div class="day-container">
 <h2 class="date">{{day}}</h2>
 {% for file in files %}
-<div class="box" data-fileref="{{file.fileref}}">
-<img src="file/{{file.image_path}}" title="{{file.fileref}}" style="width: 512px; height: 384px;">
+<div class="box" data-image="{{file.image_path}}" data-video="{{file.video_path}}">
+<img src="file/{{file.image_path}}" style="width: 512px; height: 384px;">
 <div><a href="file/{{file.video_path}}" class="left">Movie</a><a href="#" class="right delete-button">X</a></div>
 </div>
 {% endfor %}
